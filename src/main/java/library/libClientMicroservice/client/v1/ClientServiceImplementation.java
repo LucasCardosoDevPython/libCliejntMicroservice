@@ -3,7 +3,7 @@ package library.libClientMicroservice.client.v1;
 import library.libClientMicroservice.client.Client;
 import library.libClientMicroservice.client.ClientDTO;
 import library.libClientMicroservice.client.ClientRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ClientServiceImplementation implements ClientService{
     private ClientRepository clients;
 
