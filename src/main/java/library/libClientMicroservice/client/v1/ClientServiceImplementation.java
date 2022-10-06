@@ -74,6 +74,11 @@ public class ClientServiceImplementation implements ClientService{
     }
 
     @Override
+    public boolean isPresent(Integer clientId) {
+        return clients.findById(clientId).isPresent();
+    }
+
+    @Override
     @Transactional
     public Integer getClientId(String email) {
         return clients

@@ -2,6 +2,7 @@ package library.libClientMicroservice.client.v1;
 
 import library.libClientMicroservice.client.Client;
 import library.libClientMicroservice.client.ClientDTO;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface ClientService {
     void delete(Integer id);
     void update(Integer id, ClientDTO client);
     List<ClientDTO> getClientByNameLike(String name);
+    boolean isPresent(Integer clientId);
 }

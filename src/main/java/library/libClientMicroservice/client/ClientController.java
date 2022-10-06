@@ -22,6 +22,11 @@ public class ClientController {
 
     private ClientServiceImplementation service;
 
+    @GetMapping("/verify/{id}")
+    public boolean isPresent(@PathVariable("id") Integer clientId){
+        return service.isPresent(clientId);
+    }
+
     @GetMapping
     public List<ClientDTO> listAllClient(){
         return service.listAllClient();
