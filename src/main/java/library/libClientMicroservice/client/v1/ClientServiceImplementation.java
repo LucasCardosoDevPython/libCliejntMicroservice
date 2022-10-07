@@ -4,20 +4,20 @@ import library.libClientMicroservice.client.Client;
 import library.libClientMicroservice.client.ClientDTO;
 import library.libClientMicroservice.client.ClientRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import java.util.LinkedList;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class ClientServiceImplementation implements ClientService{
     private ClientRepository clients;
 
-    private ClientDTO toClientDTO(Client client){
+    private static ClientDTO toClientDTO(Client client){
         return ClientDTO.builder()
                 .email(client.getEmail())
                 .name(client.getName())
@@ -37,17 +37,14 @@ public class ClientServiceImplementation implements ClientService{
                 .build();
     }
 
+    private Page<ClientDTO> fromPage(Page<Client> page){
+        return page.map(ClientServiceImplementation::toClientDTO);
+    }
+
     @Override
     @Transactional
-    public List<ClientDTO> listAllClient() {
-
-        LinkedList<ClientDTO> all = new LinkedList<ClientDTO>();
-
-        for(Client c: clients.findAll()){
-            all.add(this.toClientDTO(c));
-        }
-
-        return all;
+    public Page<ClientDTO> listAllClient(Pageable pageable) {
+        return this.fromPage(clients.findAll(pageable));
     }
 
     @Override
@@ -64,13 +61,8 @@ public class ClientServiceImplementation implements ClientService{
     }
 
     @Override
-    public List<ClientDTO> getClientByNameLike(String name) {
-        LinkedList<ClientDTO> dtos = new LinkedList<ClientDTO>();
-
-        for(Client c: clients.findByNameLike(name)){
-            dtos.add(this.toClientDTO(c));
-        }
-        return dtos;
+    public Page<ClientDTO> getClientByNameLike(String name, Pageable pageable) {
+        return this.fromPage(clients.findByNameLike(name, pageable));
     }
 
     @Override
