@@ -19,6 +19,7 @@ public class ClientServiceImplementation implements ClientService{
 
     private static ClientDTO toClientDTO(Client client){
         return ClientDTO.builder()
+                .id(client.getId())
                 .email(client.getEmail())
                 .name(client.getName())
                 .birthDate(client.getBirthDate())
@@ -61,11 +62,13 @@ public class ClientServiceImplementation implements ClientService{
     }
 
     @Override
+    @Transactional
     public Page<ClientDTO> getClientByNameLike(String name, Pageable pageable) {
-        return this.fromPage(clients.findByNameLike(name, pageable));
+        return this.fromPage(clients.findByNameContaining(name, pageable));
     }
 
     @Override
+    @Transactional
     public boolean isPresent(Integer clientId) {
         return clients.findById(clientId).isPresent();
     }

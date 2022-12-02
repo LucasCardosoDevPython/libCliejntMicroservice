@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class ClientDTO {
+    private Integer id;
     private String email;
     private String name;
     private LocalDate birthDate;
